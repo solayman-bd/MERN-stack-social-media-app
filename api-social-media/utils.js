@@ -4,9 +4,10 @@ const mongooseConnection = async () => {
     const result = await mongoose.connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useCreateIndex: true,
     });
     if (result) {
-      console.log("Connection Established");
+      console.log("Database connection established");
     }
   } catch (err) {
     console.log("Error", err);
