@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const userModel = require("../models/userModel");
 //update user
 usersRoute.put("/:id", async (req, res) => {
-  if (req.body.userId === req.params.id || req.user.isAdmin) {
+  if (req.body.userId === req.params.id || req.body.isAdmin) {
     if (req.body.password) {
       try {
         const salt = await bcrypt.genSalt(10);
@@ -25,6 +25,19 @@ usersRoute.put("/:id", async (req, res) => {
   }
 });
 //delete user
+usersRoute.delete("/:id", async (req, res) => {
+  if (req.body.userId === req.params.id || req.body.isAdmin) {
+    try {
+      const user = await userModel.deleteOne({ _id: req.params.id });
+      console.log("Working");
+      res.status(200).json("Account has been deleted successfully");
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  } else {
+    res.status(403).json("You can delete only your account");
+  }
+});
 //get a users
 //follow a user
 //unfollow a user
