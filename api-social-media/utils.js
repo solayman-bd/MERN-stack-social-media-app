@@ -5,6 +5,7 @@ const mongooseConnection = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
+      useFindAndModify: false,
     });
     if (result) {
       console.log("Database connection established");

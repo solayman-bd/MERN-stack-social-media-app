@@ -24,4 +24,22 @@ authRoute.post("/register", async (req, res) => {
   }
 });
 
+//login
+authRoute.post("/login", async (req, res) => {
+  try {
+    const user = await userModel.findOne({
+      email: req.body.email,
+    });
+    !user && res.status(404).send("User Not Found");
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    !validPassword && res.status(400).send("Password is incorrect");
+    res.status(200).send(user);
+  } catch (err) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = authRoute;
